@@ -103,6 +103,8 @@ if __name__ == "__main__":
     parser.add_argument("--localpath", type=str, help="Path to location on local machine where files are stored")
     args = parser.parse_args()
 
+    logging.info(f"Starting script {__file__} with args: {args}")
+
     if args.localpath:
         move_files(args.localpath)
     else:
