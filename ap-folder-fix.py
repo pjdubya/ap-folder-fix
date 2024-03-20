@@ -50,7 +50,7 @@ def move_files(input_folder):
                         logging.info(rf"Moving {file_path} to {flat_target_folder}")
                         shutil.move(file_path, flat_target_folder)
                 else:
-                    print("Error: FlatWizard directory not found: {flat_source_folder}")
+                    logging.error(rf"Error: FlatWizard directory not found: {flat_source_folder}")
                     raise SystemExit
                 
                 # remove the empty FlatWizard folder
