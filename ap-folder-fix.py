@@ -40,6 +40,7 @@ def move_files(input_folder):
 
         for folder in dirs:
             if folder == "FLAT":
+                flatwizard = True
                 date_folder = os.path.basename(root)
                 flat_target_folder = os.path.join(input_folder, "_FlatWizard", "DATE_" + date_folder, "FLAT")
                 os.makedirs(flat_target_folder, exist_ok=True)
@@ -47,6 +48,7 @@ def move_files(input_folder):
                 # handle both cases where FlatWizard is a subfolder of FLAT or flats are directly in FLAT
                 if not os.path.exists(flat_source_folder):
                     flat_source_folder = os.path.join(root, folder)
+                    flatwizard = False
                 if not os.path.exists(flat_source_folder):
                     logging.error(rf"Error: FlatWizard directory not found: {flat_source_folder}")
                 else:
@@ -56,8 +58,9 @@ def move_files(input_folder):
                         shutil.move(file_path, flat_target_folder)
                 
                 # remove the empty FlatWizard folder
-                logging.info(rf"Removing {flat_source_folder}")
-                os.rmdir(flat_source_folder)
+                if flatwizard:
+                    logging.info(rf"Removing {flat_source_folder}")
+                    os.rmdir(flat_source_folder)
                 # remove the empty FLAT folder
                 logging.info(rf"Removing FLAT {os.path.join(root, folder)}")
                 os.rmdir(os.path.join(root, folder))
